@@ -6,7 +6,7 @@ import {
   IsString,
   Min,
 } from 'class-validator';
-import { Product } from 'src/products/schemas/product.schema';
+import { Product } from 'src/products/entities/product.entity';
 
 export class CreateOrderDto {
   @IsString()
