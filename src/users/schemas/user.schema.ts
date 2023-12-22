@@ -20,10 +20,10 @@ export class User {
   @Prop({ required: true })
   address: string[]; //Preguntar a la March!!
 
-  @Prop()
+  @Prop({ default: true })
   isActive: boolean;
 
-  @Prop()
+  @Prop({ default: false })
   isAdmin: boolean;
 }
 
