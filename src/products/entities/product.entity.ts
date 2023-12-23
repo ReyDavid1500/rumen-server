@@ -15,12 +15,15 @@ export class Product {
   price: number;
 
   @Prop({ required: true })
+  image: string;
+
+  @Prop({ required: true })
   category: string;
 
-  @Prop()
+  @Prop({ default: true })
   inStock: boolean;
 
-  @Prop()
+  @Prop({ default: false })
   isDeleted: boolean;
 }
 

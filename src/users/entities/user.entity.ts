@@ -19,7 +19,7 @@ export class User {
   phone: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address' })
-  address: Address[]; //Preguntar a la March!!
+  address: Address[];
 
   @Prop({ required: true })
   password: string;

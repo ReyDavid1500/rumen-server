@@ -10,7 +10,7 @@ export class Order {
   userId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-  products: Product[]; // Crar entidad para que se consulte los productos para el pedido y queden guardados!
+  products: Product[];
 
   @Prop()
   totalPrice: number;
