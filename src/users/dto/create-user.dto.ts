@@ -35,8 +35,8 @@ export class CreateUserDto {
   readonly password: string;
 
   @IsBoolean()
-  isActive: boolean;
+  isActive: boolean = true;
 
   @IsBoolean()
-  isAdmin: boolean;
+  isAdmin: boolean = false;
 }

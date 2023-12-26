@@ -6,25 +6,25 @@ import {
   IsString,
   Min,
 } from 'class-validator';
-import { Product } from 'src/products/entities/product.entity';
+import { CreateProductDto } from 'src/products/dto/create-product.dto';
 
 export class CreateOrderDto {
   @IsString()
   userId: string;
 
   @IsObject()
-  products: Product[];
+  products: CreateProductDto[];
 
   @IsInt()
   @Min(0)
   totalPrice: number;
 
   @IsDate()
-  createdAt: Date;
+  createdAt: Date = new Date();
 
   @IsDate()
-  updatedAt: Date;
-  // Preguntar a la March!!
+  updatedAt: Date = new Date();
+
   @IsBoolean()
-  isCompleted: boolean;
+  isCompleted: boolean = false;
 }

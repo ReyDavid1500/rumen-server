@@ -1,24 +1,41 @@
-import { IsBoolean, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
-  name: string;
+  @MaxLength(30)
+  @IsNotEmpty()
+  readonly name: string;
 
   @IsString()
-  description: string;
+  @MaxLength(200)
+  readonly description: string;
 
   @IsNumber()
-  price: number;
+  @IsNotEmpty()
+  readonly price: number;
 
   @IsString()
-  image: string;
+  readonly image: string;
 
   @IsString()
-  category: string;
-
-  @IsBoolean({ always: true })
-  inStock: boolean;
+  readonly category: string;
 
   @IsBoolean()
-  isDeleted: boolean;
+  readonly inStock: boolean = true;
+
+  @IsBoolean()
+  readonly isDeleted: boolean = false;
+
+  @IsDate()
+  readonly createdAt: Date = new Date();
+
+  @IsDate()
+  readonly updatedAt: Date = new Date();
 }

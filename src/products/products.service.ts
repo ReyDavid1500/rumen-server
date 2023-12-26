@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -11,24 +11,38 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const newProduct = new this.productModel(createProductDto);
-    return newProduct.save();
+    return await newProduct.save();
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async getProducts(): Promise<Product[]> {
+    const products = await this.productModel.find();
+    return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async getProduct(id: string): Promise<Product> {
+    const product = await this.productModel.findById(id);
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async updateProduct(
+    id: string,
+    updateProduct: UpdateProductDto,
+  ): Promise<Product> {
+    const updatedProduct = await this.productModel.findByIdAndUpdate(
+      id,
+      updateProduct,
+      { new: true },
+    );
+    return updatedProduct;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async removeProduct(id: string): Promise<boolean> {
+    const product = await this.productModel.findByIdAndDelete(id);
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return true;
   }
 }

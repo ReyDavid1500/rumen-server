@@ -25,6 +25,12 @@ export class Product {
 
   @Prop({ default: false })
   isDeleted: boolean;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
