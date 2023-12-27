@@ -28,9 +28,6 @@ export class CreateUserDto {
   @MaxLength(13)
   readonly phone: string;
 
-  @IsArray()
-  readonly address: CreateAddressDto[];
-
   @IsStrongPassword()
   readonly password: string;
 

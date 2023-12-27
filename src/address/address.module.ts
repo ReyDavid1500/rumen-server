@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AddressService } from './address.service';
 import { AddressController } from './address.controller';
-import { Address, AddressSchema } from './entities/address.entity';
+import { Address, AddressSchema } from './schemas/address.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
