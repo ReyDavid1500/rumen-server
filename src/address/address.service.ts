@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,23 +11,43 @@ export class AddressService {
     @InjectModel(Address.name) private addressModel: Model<Address>,
   ) {}
 
-  create(createAddressDto: CreateAddressDto) {
-    return 'This action adds a new address';
+  async createAddress(
+    // userId: string,
+    createAddressDto: CreateAddressDto,
+  ): Promise<Address> {
+    const newAddress = new this.addressModel(createAddressDto);
+    return await newAddress.save();
   }
 
-  findAll() {
-    return `This action returns all address`;
+  async getAddresses(): Promise<Address[]> {
+    const Addresses = await this.addressModel.find();
+    return Addresses;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
+  async geAddress(id: string): Promise<Address> {
+    const user = await this.addressModel.findById(id);
+    return user;
   }
 
-  update(id: number, updateAddressDto: UpdateAddressDto) {
-    return `This action updates a #${id} address`;
+  async updateAddress(
+    id: string,
+    updateAddress: UpdateAddressDto,
+  ): Promise<Address> {
+    const updatedAddress = await this.addressModel.findByIdAndUpdate(
+      id,
+      updateAddress,
+      {
+        new: true,
+      },
+    );
+    return updatedAddress;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} address`;
+  async removeAddress(id: string): Promise<boolean> {
+    const Address = await this.addressModel.findByIdAndDelete(id);
+    if (!Address) {
+      throw new NotFoundException(`Address #${id} not found`);
+    }
+    return true;
   }
 }

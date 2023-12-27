@@ -1,28 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { Product } from 'src/products/entities/product.entity';
+import { User } from 'src/users/entities/user.entity';
 
 export type OrderDocument = HydratedDocument<Order>;
 
 @Schema()
 export class Order {
   @Prop()
-  userId: string;
+  user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
+  @Prop()
   products: Product[];
 
   @Prop()
   totalPrice: number;
 
   @Prop()
-  createdAt: Date;
+  createdAt: Date = new Date();
 
   @Prop()
-  updatedAt: Date;
+  updatedAt: Date = new Date();
 
   @Prop()
-  isCompleted: boolean;
+  isCompleted: boolean = false;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
