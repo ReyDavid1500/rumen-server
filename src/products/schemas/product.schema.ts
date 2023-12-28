@@ -1,17 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Document, HydratedDocument } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
-export class Product {
+export class Product extends Document {
   @Prop({ required: true })
   name: string;
 
   @Prop()
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ type: Number, required: true, min: 0 })
   price: number;
 
   @Prop({ required: true })

@@ -10,6 +10,7 @@ import {
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
+import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
 @Controller('address')
 export class AddressController {
@@ -26,17 +27,20 @@ export class AddressController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', MongoIdPipe) id: string) {
     return this.addressService.geAddress(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAddressDto: UpdateAddressDto) {
+  update(
+    @Param('id', MongoIdPipe) id: string,
+    @Body() updateAddressDto: UpdateAddressDto,
+  ) {
     return this.addressService.updateAddress(id, updateAddressDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', MongoIdPipe) id: string) {
     return this.addressService.removeAddress(id);
   }
 }

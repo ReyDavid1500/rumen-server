@@ -1,6 +1,10 @@
-import { IsInt, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsInt, IsString } from 'class-validator';
+import { User } from 'src/users/schemas/user.schema';
 
 export class CreateAddressDto {
+  @IsString()
+  userId: User;
+
   @IsString()
   street: string;
 
@@ -12,4 +16,16 @@ export class CreateAddressDto {
 
   @IsString()
   province: string;
+
+  @IsDate()
+  createdAt: Date = new Date();
+
+  @IsDate()
+  updatedAt: Date = new Date();
+
+  @IsBoolean()
+  isDeleted: boolean = false;
+
+  @IsBoolean()
+  isSelected: boolean = false;
 }

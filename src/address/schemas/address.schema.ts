@@ -20,6 +20,18 @@ export class Address {
 
   @Prop({ required: true })
   province: string;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
+
+  @Prop({ default: false })
+  isDeleted: boolean;
+
+  @Prop({ default: false })
+  isSelected: boolean;
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

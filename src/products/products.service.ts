@@ -17,12 +17,12 @@ export class ProductsService {
   }
 
   async getProducts(): Promise<Product[]> {
-    const products = await this.productModel.find();
+    const products = await this.productModel.find().exec();
     return products;
   }
 
   async getProduct(id: string): Promise<Product> {
-    const product = await this.productModel.findById(id);
+    const product = await this.productModel.findById(id).exec();
     return product;
   }
 
