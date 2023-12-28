@@ -1,31 +1,32 @@
-import { IsBoolean, IsDate, IsInt, IsString } from 'class-validator';
-import { User } from 'src/users/schemas/user.schema';
+import {
+  IsBoolean,
+  IsDate,
+  IsInt,
+  IsMongoId,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export class CreateAddressDto {
-  @IsString()
-  userId: User;
+  @IsNotEmpty()
+  @IsMongoId()
+  readonly userId: string;
 
   @IsString()
-  street: string;
+  readonly street: string;
 
   @IsInt()
-  number: number;
+  readonly number: number;
 
   @IsString()
-  city: string;
+  readonly city: string;
 
   @IsString()
-  province: string;
-
-  @IsDate()
-  createdAt: Date = new Date();
-
-  @IsDate()
-  updatedAt: Date = new Date();
+  readonly province: string;
 
   @IsBoolean()
   isDeleted: boolean = false;
 
   @IsBoolean()
-  isSelected: boolean = false;
+  isChosen: boolean = false;
 }

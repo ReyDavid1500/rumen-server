@@ -4,24 +4,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { AddressService } from 'src/address/address.service';
-import { CreateAddressDto } from 'src/address/dto/create-address.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User.name)
-    private userModel: Model<User>,
-    private addressService: AddressService,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async createUser(
-    user: CreateUserDto,
-    address: CreateAddressDto,
-  ): Promise<User> {
-    const createdAddress = await this.addressService.createAddress(address);
-
-    return this.userModel.create({ address: [createdAddress], ...user });
+  async createUser(user: CreateUserDto): Promise<User> {
+    return await this.userModel.create(user);
   }
 
   async getUsers(): Promise<User[]> {
@@ -29,7 +18,7 @@ export class UsersService {
     return users;
   }
 
-  async geUser(id: string): Promise<User> {
+  async getUser(id: string): Promise<User> {
     const user = await this.userModel.findById(id);
     return user;
   }

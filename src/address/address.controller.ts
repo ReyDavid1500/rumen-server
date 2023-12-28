@@ -11,14 +11,18 @@ import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
+import { Types } from 'mongoose';
 
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
-  @Post()
-  create(@Body() createAddressDto: CreateAddressDto) {
-    return this.addressService.createAddress(createAddressDto);
+  @Post(':userId')
+  create(
+    @Param('userId') userId: Types.ObjectId,
+    @Body() createAddressDto: CreateAddressDto,
+  ) {
+    return this.addressService.createAddress(createAddressDto, userId);
   }
 
   @Get()

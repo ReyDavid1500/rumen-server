@@ -10,22 +10,30 @@ export class OrdersService {
   constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
 
   create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+    const newOrder = new this.orderModel(createOrderDto);
+    return newOrder.save();
   }
 
   findAll() {
-    return `This action returns all orders`;
+    return this.orderModel
+      .find()
+      .populate('user')
+      .populate('product')
+      .populate('address')
+      .exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  // findOne(id: number) {
+  //   return `This action returns a #${id} order`;
+  // }
+
+  update(id: string, updateOrderDto: UpdateOrderDto) {
+    return this.orderModel
+      .findByIdAndUpdate(id, { $set: updateOrderDto }, { new: true })
+      .exec();
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  remove(id: string) {
+    return this.orderModel.findByIdAndDelete(id);
   }
 }

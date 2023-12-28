@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { Document, HydratedDocument, Types } from 'mongoose';
 import { User } from 'src/users/schemas/user.schema';
 
 export type addressDocument = HydratedDocument<Address>;
 
-@Schema()
-export class Address {
-  @Prop({ type: mongoose.Schema.ObjectId, ref: 'User' })
-  userId: User;
+@Schema({ timestamps: true })
+export class Address extends Document {
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  userId: Types.ObjectId | string;
 
   @Prop({ required: true })
   street: string;
@@ -21,17 +21,11 @@ export class Address {
   @Prop({ required: true })
   province: string;
 
-  @Prop()
-  createdAt: Date;
-
-  @Prop()
-  updatedAt: Date;
-
   @Prop({ default: false })
   isDeleted: boolean;
 
   @Prop({ default: false })
-  isSelected: boolean;
+  isChosen: boolean;
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

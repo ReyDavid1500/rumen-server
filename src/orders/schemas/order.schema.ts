@@ -1,40 +1,33 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Address } from 'src/address/schemas/address.schema';
 import { Product } from 'src/products/schemas/product.schema';
-import { User } from 'src/users/schemas/user.schema';
 
 export type OrderDocument = HydratedDocument<Order>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Order {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  user: Types.ObjectId;
 
   @Prop({
     product: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: 'Product',
       required: true,
     },
-    quantity: { type: Number, required: true, default: 0 },
+    quantity: { type: Number, required: true, default: 1 },
   })
-  products: Product[];
+  products: Types.Array<Product>;
 
   @Prop()
   totalPrice: number;
 
-  @Prop({ type: mongoose.Schema.Types.String, ref: 'Address' })
+  @Prop({ type: Types.ObjectId, ref: 'Address' })
   address: Address;
 
   @Prop()
   phone: string;
-
-  @Prop()
-  createdAt: Date = new Date();
-
-  @Prop()
-  updatedAt: Date = new Date();
 
   @Prop()
   isCompleted: boolean = false;

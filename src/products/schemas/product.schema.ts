@@ -3,7 +3,7 @@ import { Document, HydratedDocument } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Product extends Document {
   @Prop({ required: true })
   name: string;
@@ -17,7 +17,7 @@ export class Product extends Document {
   @Prop({ required: true })
   image: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   category: string;
 
   @Prop({ default: true })
@@ -25,12 +25,6 @@ export class Product extends Document {
 
   @Prop({ default: false })
   isDeleted: boolean;
-
-  @Prop()
-  createdAt: Date;
-
-  @Prop()
-  updatedAt: Date;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

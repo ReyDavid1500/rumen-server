@@ -3,8 +3,11 @@ import {
   IsDate,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
+  IsUrl,
   MaxLength,
+  Min,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -15,13 +18,16 @@ export class CreateProductDto {
 
   @IsString()
   @MaxLength(200)
+  @IsOptional()
   readonly description: string;
 
   @IsNumber()
   @IsNotEmpty()
+  @Min(0)
   readonly price: number;
 
   @IsString()
+  @IsUrl()
   readonly image: string;
 
   @IsString()
@@ -33,9 +39,9 @@ export class CreateProductDto {
   @IsBoolean()
   readonly isDeleted: boolean = false;
 
-  @IsDate()
-  readonly createdAt: Date = new Date();
+  // @IsDate()
+  // readonly createdAt: Date = new Date();
 
-  @IsDate()
-  readonly updatedAt: Date = new Date();
+  // @IsDate()
+  // readonly updatedAt: Date = new Date();
 }

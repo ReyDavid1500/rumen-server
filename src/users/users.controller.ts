@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateAddressDto } from 'src/address/dto/create-address.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
@@ -18,8 +17,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() user: CreateUserDto, @Body() address: CreateAddressDto) {
-    return this.usersService.createUser(user, address);
+  create(@Body() user: CreateUserDto) {
+    return this.usersService.createUser(user);
   }
 
   @Get()
@@ -29,7 +28,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
-    return this.usersService.geUser(id);
+    return this.usersService.getUser(id);
   }
 
   @Patch(':id')
