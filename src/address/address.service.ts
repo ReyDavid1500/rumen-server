@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Address } from './schemas/address.schema';
+import { Address, addressDocument } from './schemas/address.schema';
 import { Model, Types } from 'mongoose';
 import { CreateAddressDto } from './dto/create-address.dto';
 
@@ -11,11 +11,12 @@ export class AddressService {
     @InjectModel(Address.name) private addressModel: Model<Address>,
   ) {}
 
-  async createAddress(address: CreateAddressDto, userId: Types.ObjectId) {
-    const newAddress = new this.addressModel({
-      userId,
-      ...address,
-    });
+  async createAddress(
+    userId: string,
+    address: CreateAddressDto,
+  ): Promise<Address> {
+    const newAddress = new this.addressModel({ userId, ...address });
+    return await newAddress.save();
   }
 
   async getAddresses(): Promise<Address[]> {

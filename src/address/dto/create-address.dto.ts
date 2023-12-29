@@ -1,17 +1,6 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsInt,
-  IsMongoId,
-  IsNotEmpty,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsInt, IsString } from 'class-validator';
 
 export class CreateAddressDto {
-  @IsNotEmpty()
-  @IsMongoId()
-  readonly userId: string;
-
   @IsString()
   readonly street: string;
 

@@ -1,5 +1,4 @@
 import {
-  IsArray,
   IsBoolean,
   IsEmail,
   IsNotEmpty,
@@ -7,7 +6,6 @@ import {
   IsStrongPassword,
   MaxLength,
 } from 'class-validator';
-import { CreateAddressDto } from 'src/address/dto/create-address.dto';
 
 export class CreateUserDto {
   @IsString()

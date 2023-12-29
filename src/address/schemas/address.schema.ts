@@ -7,7 +7,7 @@ export type addressDocument = HydratedDocument<Address>;
 @Schema({ timestamps: true })
 export class Address extends Document {
   @Prop({ type: Types.ObjectId, ref: 'User' })
-  userId: Types.ObjectId | string;
+  userId: Types.ObjectId;
 
   @Prop({ required: true })
   street: string;
