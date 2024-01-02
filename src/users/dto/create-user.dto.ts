@@ -11,7 +11,7 @@ export class CreateUserDto {
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly name: string;
+  readonly firstName: string;
 
   @IsString()
   @MaxLength(30)

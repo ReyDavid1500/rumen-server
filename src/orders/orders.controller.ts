@@ -22,13 +22,13 @@ export class OrdersController {
 
   @Get()
   findAll() {
-    return this.ordersService.findAll();
+    return this.ordersService.getOrders();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.ordersService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.ordersService.getOrder(id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {

@@ -9,23 +9,27 @@ import { Model } from 'mongoose';
 export class OrdersService {
   constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
 
-  create(createOrderDto: CreateOrderDto) {
-    const newOrder = new this.orderModel(createOrderDto);
-    return newOrder.save();
+  async create(order: CreateOrderDto): Promise<Order> {
+    return this.orderModel.create(order);
   }
 
-  findAll() {
+  getOrders() {
     return this.orderModel
       .find()
-      .populate('user')
-      .populate('product')
+      .populate('userId')
+      .populate('products.product')
       .populate('address')
       .exec();
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} order`;
-  // }
+  getOrder(id: string) {
+    return this.orderModel
+      .findById(id)
+      .populate('userId')
+      .populate('products.product')
+      .populate('address')
+      .exec();
+  }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
     return this.orderModel

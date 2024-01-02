@@ -6,7 +6,7 @@ export type UserDocument = HydratedDocument<User>;
 @Schema({ timestamps: true })
 export class User extends Document {
   @Prop({ required: true })
-  name: string;
+  firstName: string;
 
   @Prop({ required: true })
   lastName: string;
