@@ -18,7 +18,7 @@ export class CreateOrderDto {
 
   @IsArray()
   @IsNotEmpty()
-  readonly products: OrderProduct[];
+  readonly products: Types.Array<OrderProduct>[];
 
   @IsInt()
   @Min(0)

@@ -1,6 +1,6 @@
-import { Product } from 'src/products/schemas/product.schema';
+import { Types } from 'mongoose';
 
 export interface OrderProduct {
-  product: Product;
+  product: Types.ObjectId;
   quantity: number;
 }

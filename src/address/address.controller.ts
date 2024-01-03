@@ -16,12 +16,9 @@ import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
-  @Post(':userId')
-  async create(
-    @Param('userId', MongoIdPipe) userId: string,
-    @Body() address: CreateAddressDto,
-  ) {
-    return await this.addressService.createAddress(userId, address);
+  @Post()
+  async create(@Body() address: CreateAddressDto) {
+    return await this.addressService.createAddress(address);
   }
 
   @Get()

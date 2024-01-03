@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { AddProductsToOrderDto, UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './schemas/order.schema';
 import { Model } from 'mongoose';
@@ -16,7 +16,6 @@ export class OrdersService {
   getOrders() {
     return this.orderModel
       .find()
-      .populate('userId')
       .populate('products.product')
       .populate('address')
       .exec();
@@ -25,7 +24,6 @@ export class OrdersService {
   getOrder(id: string) {
     return this.orderModel
       .findById(id)
-      .populate('userId')
       .populate('products.product')
       .populate('address')
       .exec();
@@ -39,5 +37,18 @@ export class OrdersService {
 
   remove(id: string) {
     return this.orderModel.findByIdAndDelete(id);
+  }
+
+  async removeProduct(id: string, productId: string) {
+    const order = await this.orderModel.findById(id);
+    order.products.pull(productId);
+    return order.save();
+  }
+
+  async addProducts(id: string, products: AddProductsToOrderDto[]) {
+    console.log(products);
+    const order = await this.orderModel.findById(id);
+    products.forEach((product) => order.products.push(product));
+    return order.save();
   }
 }

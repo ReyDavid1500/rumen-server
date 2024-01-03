@@ -24,7 +24,7 @@ export class Order extends Document {
       },
     ],
   })
-  products: OrderProduct[];
+  products: Types.Array<OrderProduct>;
 
   @Prop()
   totalPrice: number;

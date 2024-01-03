@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { AddProductsToOrderDto, UpdateOrderDto } from './dto/update-order.dto';
+import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
+import { OrderProduct } from 'src/interfaces/order.interface';
 
 @Controller('orders')
 export class OrdersController {
@@ -31,12 +34,28 @@ export class OrdersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(id, updateOrderDto);
+  update(@Param('id') id: string, @Body() payload: UpdateOrderDto) {
+    return this.ordersService.update(id, payload);
+  }
+
+  @Put(':id/products')
+  updateProducts(
+    @Param('id', MongoIdPipe) id: string,
+    @Body() payload: AddProductsToOrderDto[],
+  ) {
+    return this.ordersService.addProducts(id, payload);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.ordersService.remove(id);
+  }
+
+  @Delete(':id/product/:productId')
+  removeProduct(
+    @Param('id', MongoIdPipe) id: string,
+    @Param('productId', MongoIdPipe) productId: string,
+  ) {
+    return this.ordersService.removeProduct(id, productId);
   }
 }

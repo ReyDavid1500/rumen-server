@@ -1,11 +1,15 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
   IsNotEmpty,
+  IsObject,
   IsString,
   IsStrongPassword,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { CreateAddressDto } from 'src/address/dto/create-address.dto';
 
 export class CreateUserDto {
   @IsString()
@@ -34,4 +38,9 @@ export class CreateUserDto {
 
   @IsBoolean()
   isAdmin: boolean = false;
+
+  @IsObject()
+  @Type(() => CreateAddressDto)
+  @ValidateNested({ each: true })
+  address: CreateAddressDto;
 }
