@@ -5,11 +5,12 @@ import {
   IsNotEmpty,
   IsString,
 } from 'class-validator';
+import { Types } from 'mongoose';
 
 export class CreateAddressDto {
   @IsMongoId()
   @IsNotEmpty()
-  readonly userId: string;
+  readonly userId: Types.ObjectId;
 
   @IsString()
   @IsNotEmpty()

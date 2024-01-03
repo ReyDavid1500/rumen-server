@@ -1,15 +1,37 @@
-import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
+  IsInt,
   IsNotEmpty,
   IsObject,
   IsString,
   IsStrongPassword,
   MaxLength,
-  ValidateNested,
 } from 'class-validator';
-import { CreateAddressDto } from 'src/address/dto/create-address.dto';
+
+export class CreateAddressWithUserDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly street: string;
+
+  @IsInt()
+  @IsNotEmpty()
+  readonly number: number;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly city: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly province: string;
+
+  @IsBoolean()
+  isDeleted: boolean = false;
+
+  @IsBoolean()
+  isChosen: boolean = false;
+}
 
 export class CreateUserDto {
   @IsString()
@@ -26,6 +48,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly email: string;
 
+  @IsObject()
+  @IsNotEmpty()
+  readonly address: CreateAddressWithUserDto;
+
   @IsString()
   @MaxLength(13)
   readonly phone: string;
@@ -38,9 +64,4 @@ export class CreateUserDto {
 
   @IsBoolean()
   isAdmin: boolean = false;
-
-  @IsObject()
-  @Type(() => CreateAddressDto)
-  @ValidateNested({ each: true })
-  address: CreateAddressDto;
 }
