@@ -14,6 +14,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 
 @ApiTags('Products')
 @Controller('products')
@@ -34,6 +35,12 @@ export class ProductsController {
   @HttpCode(HttpStatus.ACCEPTED)
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.productsService.getProduct(id);
+  }
+
+  @Get(':id/order')
+  @HttpCode(HttpStatus.ACCEPTED)
+  findOrderProduct(@Param('id', MongoIdPipe) id: Types.ObjectId) {
+    return this.productsService.getProductToOrder(id);
   }
 
   @Put(':id')

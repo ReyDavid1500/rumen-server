@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Product } from './schemas/product.schema';
 
 @Injectable()
@@ -27,6 +27,14 @@ export class ProductsService {
       throw new NotFoundException(`Product #${id} does not exist`);
     }
     return product;
+  }
+
+  async getProductToOrder(id: Types.ObjectId): Promise<any> {
+    const selectedProduct = await this.productModel.findById(id, {
+      name: 1,
+      price: 1,
+    });
+    return await selectedProduct.save();
   }
 
   async updateProduct(

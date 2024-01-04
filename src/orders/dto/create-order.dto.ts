@@ -4,21 +4,32 @@ import {
   IsInt,
   IsMongoId,
   IsNotEmpty,
+  IsObject,
   IsString,
   MaxLength,
   Min,
 } from 'class-validator';
 import { Types } from 'mongoose';
-import { OrderProduct } from 'src/interfaces/order.interface';
+
+export class CreateOrderProductDto {
+  @IsMongoId()
+  @IsNotEmpty()
+  product: Types.ObjectId;
+
+  @IsInt()
+  @IsNotEmpty()
+  @Min(1)
+  quantity: number;
+}
 
 export class CreateOrderDto {
   @IsNotEmpty()
   @IsMongoId()
-  readonly userId: string;
+  readonly userId: Types.ObjectId;
 
   @IsArray()
   @IsNotEmpty()
-  readonly products: OrderProduct[];
+  readonly products: CreateOrderProductDto[];
 
   @IsInt()
   @Min(0)

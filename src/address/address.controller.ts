@@ -12,6 +12,7 @@ import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 
 @ApiTags('Address')
 @Controller('address')
@@ -30,7 +31,11 @@ export class AddressController {
 
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
-    return this.addressService.geAddress(id);
+    return this.addressService.getAddress(id);
+  }
+  @Get(':userId/order')
+  findUserAddress(@Param('userId', MongoIdPipe) userId: Types.ObjectId) {
+    return this.addressService.getUserAddresses(userId);
   }
 
   @Patch(':id')

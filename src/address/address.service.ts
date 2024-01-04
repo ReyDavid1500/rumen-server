@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Address } from './schemas/address.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateAddressDto } from './dto/create-address.dto';
 
 @Injectable()
@@ -20,12 +20,22 @@ export class AddressService {
     return Addresses;
   }
 
-  async geAddress(id: string): Promise<Address> {
+  async getAddress(id: string): Promise<Address> {
     const address = await this.addressModel.findById(id);
     if (!address) {
       throw new NotFoundException(`Address #${id} does not exist!`);
     }
     return address;
+  }
+
+  async getUserAddresses(userId: Types.ObjectId): Promise<Address[]> {
+    const userAddresses = await this.addressModel
+      .find(
+        { userId: userId, isChosen: true },
+        { street: 1, number: 1, city: 1, province: 1, _id: 0 },
+      )
+      .exec();
+    return userAddresses;
   }
 
   async updateAddress(

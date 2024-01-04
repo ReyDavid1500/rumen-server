@@ -12,7 +12,6 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { AddProductsToOrderDto, UpdateOrderDto } from './dto/update-order.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
-import { OrderProduct } from 'src/interfaces/order.interface';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Orders')
@@ -22,7 +21,7 @@ export class OrdersController {
 
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+    return this.ordersService.createOrder(createOrderDto);
   }
 
   @Get()
