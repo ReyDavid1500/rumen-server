@@ -11,7 +11,9 @@ import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Address')
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}

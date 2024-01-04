@@ -25,7 +25,6 @@ export class UsersService {
       ...address,
     });
     await firstAddress.save();
-    console.log(firstAddress);
     return newUser;
   }
 
@@ -36,11 +35,18 @@ export class UsersService {
 
   async getUser(id: string): Promise<User> {
     const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(`Product #${id} does not exist!`);
+    }
     return user;
   }
 
   async getUserEmail(email: string) {
-    return await this.userModel.findOne({ email }).exec();
+    const userEmail = await this.userModel.findOne({ email }).exec();
+    if (!userEmail) {
+      throw new NotFoundException(`User email: ${email} does not exist!`);
+    }
+    return userEmail;
   }
 
   async updateUser(id: string, updateUser: UpdateUserDto): Promise<User> {

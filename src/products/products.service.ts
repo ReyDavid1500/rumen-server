@@ -23,6 +23,9 @@ export class ProductsService {
 
   async getProduct(id: string): Promise<Product> {
     const product = await this.productModel.findById(id).exec();
+    if (!product) {
+      throw new NotFoundException(`Product #${id} does not exist`);
+    }
     return product;
   }
 

@@ -11,9 +11,9 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
-import { CreateAddressDto } from 'src/address/dto/create-address.dto';
-import { Address } from 'src/address/schemas/address.schema';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -24,6 +24,7 @@ export class UsersController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'List of Users' })
   findAll() {
     return this.usersService.getUsers();
   }

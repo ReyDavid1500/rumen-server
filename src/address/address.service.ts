@@ -21,8 +21,11 @@ export class AddressService {
   }
 
   async geAddress(id: string): Promise<Address> {
-    const user = await this.addressModel.findById(id);
-    return user;
+    const address = await this.addressModel.findById(id);
+    if (!address) {
+      throw new NotFoundException(`Address #${id} does not exist!`);
+    }
+    return address;
   }
 
   async updateAddress(
