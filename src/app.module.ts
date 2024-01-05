@@ -7,6 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { AddressModule } from './address/address.module';
 import { AuthModule } from './auth/auth.module';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -14,6 +15,10 @@ import { AuthModule } from './auth/auth.module';
       envFilePath: '.env',
       load: [config],
       isGlobal: true,
+      validationSchema: Joi.object({
+        DATABASE_CONNECTION: Joi.string().required(),
+        SECRET_VALUE: Joi.string().required(),
+      }),
     }),
     MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
     UsersModule,
