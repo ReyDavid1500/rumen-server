@@ -7,13 +7,16 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { AddProductsToOrderDto, UpdateOrderDto } from './dto/update-order.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('Orders')
 @Controller('orders')
 export class OrdersController {
