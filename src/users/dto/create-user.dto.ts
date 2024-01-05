@@ -62,6 +62,7 @@ export class CreateUserDto {
   @IsBoolean()
   isActive: boolean = true;
 
-  @IsBoolean()
-  isAdmin: boolean = false;
+  @IsString()
+  @IsNotEmpty()
+  role: string = 'customer';
 }
