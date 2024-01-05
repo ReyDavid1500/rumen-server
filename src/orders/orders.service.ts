@@ -3,7 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { AddProductsToOrderDto, UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './schemas/order.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { ProductsService } from 'src/products/products.service';
 import { AddressService } from 'src/address/address.service';
 
@@ -16,30 +16,22 @@ export class OrdersService {
   ) {}
 
   async createOrder(order: CreateOrderDto): Promise<Order> {
-    const { products, userId } = order;
-    const productsId = products.map((product) => {
-      return {
-        id: product.product,
-        quantity: product.quantity,
-      };
-    });
+    const { products, userId } = order; //sacar userId del JWT
+    const productsId = products.map((product) => product.id);
 
-    const selectedProducts = await Promise.all(
-      productsId.map(async (productId) => {
-        return {
-          product: await this.productsService.getProductToOrder(productId.id),
-          id: productId.id,
-          quantity: productId.quantity,
-        };
-      }),
-    );
+    const selectedProducts =
+      await this.productsService.getProductsToOrder(productsId);
 
     const orderProducts = selectedProducts.map((selectProduct) => {
+      const dbProduct = products.find(
+        (product) => product.id === selectProduct._id.toString(),
+      );
+
       return {
-        id: selectProduct.id,
-        name: selectProduct.product.name,
-        price: selectProduct.product.price,
-        quantity: selectProduct.quantity,
+        id: selectProduct._id,
+        name: selectProduct.name,
+        price: selectProduct.price,
+        quantity: dbProduct.quantity,
       };
     });
 
@@ -47,13 +39,11 @@ export class OrdersService {
       return acc + product.price * product.quantity;
     }, 0);
 
-    console.log(totalPrice);
-
     const selectedAddress = await this.addressService.getUserAddresses(userId);
 
     const newOrder = {
       ...order,
-      userId,
+      userId: new Types.ObjectId(userId),
       products: orderProducts,
       address: selectedAddress,
       totalPrice: totalPrice,

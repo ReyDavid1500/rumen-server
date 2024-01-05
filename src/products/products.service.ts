@@ -33,8 +33,18 @@ export class ProductsService {
     const selectedProduct = await this.productModel.findById(id, {
       name: 1,
       price: 1,
+      _id: 0,
     });
-    return await selectedProduct.save();
+    return selectedProduct;
+  }
+
+  async getProductsToOrder(ids: Types.ObjectId[]): Promise<Product[]> {
+    const selectedProduct = await this.productModel
+      .find()
+      .where('_id')
+      .in(ids)
+      .exec();
+    return selectedProduct;
   }
 
   async updateProduct(

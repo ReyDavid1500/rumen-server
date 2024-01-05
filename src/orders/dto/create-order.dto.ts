@@ -14,7 +14,7 @@ import { Types } from 'mongoose';
 export class CreateOrderProductDto {
   @IsMongoId()
   @IsNotEmpty()
-  product: Types.ObjectId;
+  id: Types.ObjectId;
 
   @IsInt()
   @IsNotEmpty()
@@ -30,10 +30,6 @@ export class CreateOrderDto {
   @IsArray()
   @IsNotEmpty()
   readonly products: CreateOrderProductDto[];
-
-  @IsInt()
-  @Min(0)
-  readonly totalPrice: number;
 
   @IsNotEmpty()
   @IsMongoId()
