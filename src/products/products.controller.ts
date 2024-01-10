@@ -41,6 +41,12 @@ export class ProductsController {
   }
 
   @Public()
+  @Get(':category')
+  getProductsByCategory(@Param('category') category: string) {
+    return this.productsService.getProductsByCategory(category);
+  }
+
+  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
   getProduct(@Param('id', MongoIdPipe) id: string) {

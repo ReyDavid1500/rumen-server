@@ -29,6 +29,14 @@ export class ProductsService {
     return product;
   }
 
+  async getProductsByCategory(category: string): Promise<Product[]> {
+    const products = await this.productModel.find({ category }).exec();
+    if (!products) {
+      throw new NotFoundException(`The category ${category} does not exist`);
+    }
+    return products;
+  }
+
   async getProductToOrder(id: Types.ObjectId): Promise<any> {
     const selectedProduct = await this.productModel.findById(id, {
       name: 1,
