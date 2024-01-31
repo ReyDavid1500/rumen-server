@@ -1,4 +1,3 @@
-import { Type } from '@nestjs/common';
 import { Types } from 'mongoose';
 
 export interface OrderProduct {
@@ -14,4 +13,12 @@ export interface OrderAddress {
   number: number;
   city: string;
   province: string;
+}
+
+export interface CartProduct {
+  product: {
+    name: string;
+    price: number;
+  };
+  quantity: number;
 }

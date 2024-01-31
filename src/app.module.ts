@@ -7,6 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { AddressModule } from './address/address.module';
 import { AuthModule } from './auth/auth.module';
+import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -26,6 +27,7 @@ import * as Joi from 'joi';
     OrdersModule,
     AddressModule,
     AuthModule,
+    ShoppingCartModule,
   ],
 })
 export class AppModule {}

@@ -1,6 +1,5 @@
 import {
   IsBoolean,
-  IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -38,10 +37,4 @@ export class CreateProductDto {
 
   @IsBoolean()
   readonly isDeleted: boolean = false;
-
-  // @IsDate()
-  // readonly createdAt: Date = new Date();
-
-  // @IsDate()
-  // readonly updatedAt: Date = new Date();
 }

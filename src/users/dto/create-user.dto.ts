@@ -35,14 +35,9 @@ export class CreateAddressWithUserDto {
 
 export class CreateUserDto {
   @IsString()
-  @MaxLength(30)
+  @MaxLength(50)
   @IsNotEmpty()
-  readonly firstName: string;
-
-  @IsString()
-  @MaxLength(30)
-  @IsNotEmpty()
-  readonly lastName: string;
+  readonly name: string;
 
   @IsEmail()
   @IsNotEmpty()
