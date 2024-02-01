@@ -38,4 +38,9 @@ export class ShoppingCartController {
   ) {
     return this.shoppingCartService.addProductsToCart(cartId, products);
   }
+
+  @Get(':cartId')
+  findShoppingCart(@Param('cartId', MongoIdPipe) cartId: string) {
+    return this.shoppingCartService.getShoppingCart(cartId);
+  }
 }

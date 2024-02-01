@@ -1,37 +1,36 @@
 import {
   IsBoolean,
   IsEmail,
-  IsInt,
   IsNotEmpty,
-  IsObject,
   IsString,
   IsStrongPassword,
   MaxLength,
 } from 'class-validator';
 
-export class CreateAddressWithUserDto {
-  @IsString()
-  @IsNotEmpty()
-  readonly street: string;
+// Para una segunda Etapa!!
+// export class CreateAddressWithUserDto {
+//   @IsString()
+//   @IsNotEmpty()
+//   readonly street: string;
 
-  @IsInt()
-  @IsNotEmpty()
-  readonly number: number;
+//   @IsInt()
+//   @IsNotEmpty()
+//   readonly number: number;
 
-  @IsString()
-  @IsNotEmpty()
-  readonly city: string;
+//   @IsString()
+//   @IsNotEmpty()
+//   readonly city: string;
 
-  @IsString()
-  @IsNotEmpty()
-  readonly province: string;
+//   @IsString()
+//   @IsNotEmpty()
+//   readonly province: string;
 
-  @IsBoolean()
-  isDeleted: boolean = false;
+//   @IsBoolean()
+//   isDeleted: boolean = false;
 
-  @IsBoolean()
-  isChosen: boolean = false;
-}
+//   @IsBoolean()
+//   isChosen: boolean = false;
+// }
 
 export class CreateUserDto {
   @IsString()
@@ -43,13 +42,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly email: string;
 
-  @IsObject()
-  @IsNotEmpty()
-  readonly address: CreateAddressWithUserDto;
-
   @IsString()
-  @MaxLength(13)
-  readonly phone: string;
+  @IsNotEmpty()
+  readonly address: string;
 
   @IsStrongPassword()
   readonly password: string;

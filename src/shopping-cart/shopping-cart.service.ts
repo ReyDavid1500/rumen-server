@@ -54,41 +54,53 @@ export class ShoppingCartService {
     productsDto: CreateShoppingCartDto[],
   ): Promise<ShoppingCart> {
     const cart = await this.ShoppingCartModel.findById(cartId);
+    console.log('cart: ', cart);
 
     if (!cart) {
       throw new NotFoundException('Shopping cart not found');
-    }
-    productsDto.forEach(async (item) => {
-      const { productId, quantity } = item;
-      const existingProduct = cart.products.find(
-        (product) => product.id === productId,
-      );
-
-      if (existingProduct) {
-        existingProduct.quantity = quantity;
-      } else {
+    } else {
+      for (const item of productsDto) {
+        const { productId, quantity } = item;
+        console.log('payload quantity: ', quantity);
         const productsInCart = cart.products.map((product) => product);
+        console.log('Products in cart: ', productsInCart);
 
-        const product = await this.productsService.getProductToOrder(productId);
-
-        const newProduct: OrderProduct = {
-          id: productId,
-          name: product.name,
-          price: product.price,
-          quantity,
-        };
-        cart.products = [...productsInCart, newProduct];
-
-        const totalPrice = cart.products.reduce(
-          (acc, curr) => acc + curr.price * curr.quantity,
-          0,
+        const existingProduct = cart.products.find(
+          (product) => product.id === productId,
         );
 
-        cart.subtotal = totalPrice;
-        cart.total = cart.subtotal + cart.shipping;
+        if (existingProduct) {
+          existingProduct.quantity = quantity;
+        } else {
+          const product =
+            await this.productsService.getProductToOrder(productId);
+
+          const newProduct: OrderProduct = {
+            id: productId,
+            name: product.name,
+            price: product.price,
+            quantity,
+          };
+          cart.products = [...productsInCart, newProduct];
+        }
       }
-    });
+    }
+
+    const totalPrice = cart.products.reduce(
+      (acc, curr) => acc + curr.price * curr.quantity,
+      0,
+    );
+
+    cart.subtotal = totalPrice;
+    cart.total = cart.subtotal + cart.shipping;
+
     cart.save();
+
+    return cart;
+  }
+
+  getShoppingCart(cartId: string) {
+    const cart = this.ShoppingCartModel.findById(cartId);
 
     return cart;
   }
