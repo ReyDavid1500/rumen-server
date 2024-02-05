@@ -5,9 +5,6 @@ import { User } from 'src/users/schemas/user.schema';
 
 @Schema({ timestamps: true })
 export class ShoppingCart extends Document {
-  // @Prop({ type: Types.ObjectId, required: true, ref: User.name })
-  // userId: Types.ObjectId;
-
   @Prop({ type: Types.ObjectId })
   products: OrderProduct[];
 

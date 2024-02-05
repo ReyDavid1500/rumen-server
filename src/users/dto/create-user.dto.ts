@@ -7,6 +7,32 @@ import {
   MaxLength,
 } from 'class-validator';
 
+export class CreateUserDto {
+  @IsString()
+  @MaxLength(50)
+  @IsNotEmpty()
+  readonly name: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  readonly email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  readonly address: string;
+
+  @IsStrongPassword()
+  readonly password: string;
+
+  @IsBoolean()
+  isActive: boolean = true;
+
+  @IsString()
+  @IsNotEmpty()
+  role: string = 'customer';
+}
+
 // Para una segunda Etapa!!
 // export class CreateAddressWithUserDto {
 //   @IsString()
@@ -31,28 +57,3 @@ import {
 //   @IsBoolean()
 //   isChosen: boolean = false;
 // }
-
-export class CreateUserDto {
-  @IsString()
-  @MaxLength(50)
-  @IsNotEmpty()
-  readonly name: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  readonly email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly address: string;
-
-  @IsStrongPassword()
-  readonly password: string;
-
-  @IsBoolean()
-  isActive: boolean = true;
-
-  @IsString()
-  @IsNotEmpty()
-  role: string = 'customer';
-}

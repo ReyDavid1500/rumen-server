@@ -7,18 +7,17 @@ export interface OrderProduct {
   quantity: number;
 }
 
-export interface OrderAddress {
-  id: Types.ObjectId;
-  street: string;
-  number: number;
-  city: string;
-  province: string;
-}
+// export interface OrderAddress {
+//   id: Types.ObjectId;
+//   street: string;
+//   number: number;
+//   city: string;
+//   province: string;
+// }
 
 export interface CartProduct {
-  product: {
-    name: string;
-    price: number;
-  };
-  quantity: number;
+  products: OrderProduct[];
+  subtotal: number;
+  shipping: number;
+  total: number;
 }

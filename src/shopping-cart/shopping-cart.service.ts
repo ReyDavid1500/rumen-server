@@ -54,7 +54,6 @@ export class ShoppingCartService {
     productsDto: CreateShoppingCartDto[],
   ): Promise<ShoppingCart> {
     const cart = await this.ShoppingCartModel.findById(cartId);
-    console.log('cart: ', cart);
 
     if (!cart) {
       throw new NotFoundException('Shopping cart not found');
@@ -63,7 +62,6 @@ export class ShoppingCartService {
         const { productId, quantity } = item;
         console.log('payload quantity: ', quantity);
         const productsInCart = cart.products.map((product) => product);
-        console.log('Products in cart: ', productsInCart);
 
         const existingProduct = cart.products.find(
           (product) => product.id === productId,

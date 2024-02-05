@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Types } from 'mongoose';
-import { OrderAddress, OrderProduct } from '../../interfaces/order.interface';
 import { User } from 'src/users/schemas/user.schema';
+import { ShoppingCart } from 'src/shopping-cart/schemas/shopping-cart.schema';
+import { CartProduct } from 'src/interfaces/order.interface';
 
 export type OrderDocument = HydratedDocument<Order>;
 
@@ -10,14 +11,11 @@ export class Order extends Document {
   @Prop({ type: Types.ObjectId, required: true, ref: User.name })
   userId: Types.ObjectId;
 
-  @Prop({ type: Object, required: true })
-  products: OrderProduct[];
+  @Prop({ type: Types.ObjectId, required: true, ref: ShoppingCart.name })
+  shoppingCart: CartProduct;
 
   @Prop()
-  totalPrice: number;
-
-  @Prop({ type: Object, required: true })
-  address: OrderAddress;
+  address: string;
 
   @Prop()
   phone: string;
