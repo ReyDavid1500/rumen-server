@@ -21,6 +21,9 @@ export class Order extends Document {
   phone: string;
 
   @Prop()
+  payment: string;
+
+  @Prop()
   isCompleted: boolean = false;
 }
 

@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { OrderProduct } from 'src/interfaces/order.interface';
-import { User } from 'src/users/schemas/user.schema';
 
 @Schema({ timestamps: true })
 export class ShoppingCart extends Document {
@@ -11,7 +10,7 @@ export class ShoppingCart extends Document {
   @Prop()
   subtotal: number;
 
-  @Prop({ default: 3000 })
+  @Prop()
   shipping: number;
 
   @Prop()

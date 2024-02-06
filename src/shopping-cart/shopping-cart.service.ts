@@ -22,6 +22,7 @@ export class ShoppingCartService {
       products.map(async (item) => {
         const { productId, quantity } = item;
         const product = await this.productsService.getProductToOrder(productId);
+
         return {
           id: productId,
           name: product.name,
@@ -60,7 +61,7 @@ export class ShoppingCartService {
     } else {
       for (const item of productsDto) {
         const { productId, quantity } = item;
-        console.log('payload quantity: ', quantity);
+
         const productsInCart = cart.products.map((product) => product);
 
         const existingProduct = cart.products.find(
@@ -99,6 +100,30 @@ export class ShoppingCartService {
 
   getShoppingCart(cartId: string) {
     const cart = this.ShoppingCartModel.findById(cartId);
+
+    return cart;
+  }
+
+  async deleteProductFromCart(cartId: string, productId: string) {
+    const cart = await this.ShoppingCartModel.findById(cartId);
+
+    if (!cart) {
+      throw new NotFoundException('Shopping cart not found');
+    }
+    const updatedProducts = cart.products.filter(
+      (product) => product.id.toString() !== productId,
+    );
+    cart.products = updatedProducts;
+
+    const totalPrice = cart.products.reduce(
+      (acc, curr) => acc + curr.price * curr.quantity,
+      0,
+    );
+
+    cart.subtotal = totalPrice;
+    cart.total = cart.subtotal + cart.shipping;
+
+    cart.save();
 
     return cart;
   }

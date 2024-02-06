@@ -19,6 +19,9 @@ export class CreateOrderDto {
   @MaxLength(13)
   readonly phone: string;
 
+  @IsString()
+  readonly payment: string;
+
   @IsBoolean()
   isCompleted: boolean = false;
 }

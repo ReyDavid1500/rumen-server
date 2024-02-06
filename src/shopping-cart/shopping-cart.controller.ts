@@ -43,4 +43,12 @@ export class ShoppingCartController {
   findShoppingCart(@Param('cartId', MongoIdPipe) cartId: string) {
     return this.shoppingCartService.getShoppingCart(cartId);
   }
+
+  @Delete(':cartId/product/:productId')
+  removeProductFromCart(
+    @Param('cartId', MongoIdPipe) cartId: string,
+    @Param('productId', MongoIdPipe) productId: string,
+  ) {
+    return this.shoppingCartService.deleteProductFromCart(cartId, productId);
+  }
 }
