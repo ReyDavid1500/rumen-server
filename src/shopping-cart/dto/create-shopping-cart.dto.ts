@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 
 export class CreateShoppingCartDto {
   @IsMongoId()
-  productId: Types.ObjectId;
+  id: Types.ObjectId;
 
   @IsInt()
   @Min(1)
