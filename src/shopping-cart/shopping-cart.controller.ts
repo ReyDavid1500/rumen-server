@@ -51,17 +51,4 @@ export class ShoppingCartController {
   ) {
     return this.shoppingCartService.deleteProductFromCart(cartId, productId);
   }
-
-  @Patch(':cartId/product/:productId')
-  updateProductQuantity(
-    @Param('cartId', MongoIdPipe) cartId: string,
-    @Param('productId', MongoIdPipe) productId: string,
-    @Body() productDto: UpdateShoppingCartDto,
-  ) {
-    return this.shoppingCartService.updateProductQuantity(
-      cartId,
-      productId,
-      productDto,
-    );
-  }
 }

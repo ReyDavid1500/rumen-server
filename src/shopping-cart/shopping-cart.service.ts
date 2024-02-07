@@ -59,32 +59,9 @@ export class ShoppingCartService {
     if (!cart) {
       throw new NotFoundException('Shopping cart not found');
     }
-    // for (const item of productsDto) {
-    //   const { productId, quantity } = item;
-
-    //   const productsInCart = cart.products.map((product) => product);
-
-    //   const existingProduct = cart.products.find(
-    //     (product) => product.id === productId,
-    //   );
-
-    //   if (existingProduct) {
-    //     existingProduct.quantity = quantity;
-    //   } else {
-    //     const product = await this.productsService.getProductToOrder(productId);
-
-    //     const newProduct: OrderProduct = {
-    //       id: productId,
-    //       name: product.name,
-    //       price: product.price,
-    //       quantity,
-    //     };
-    //     cart.products = [...productsInCart, newProduct];
-    //   }
-    // }
     const productsIds = productsDto.map((product) => product.id);
     const products = await this.productsService.getProductsToOrder(productsIds);
-    const addedProducts2 = products.map((product) => {
+    const addedProducts = products.map((product) => {
       const quantity = productsDto.find(
         (item) => item.id === product._id.toString(),
       ).quantity;
@@ -96,22 +73,8 @@ export class ShoppingCartService {
       };
     });
 
-    // const addedProducts: OrderProduct[] = await Promise.all(
-    //   productsDto.map(async (item) => {
-    //     const { productId, quantity } = item;
-    //     const product = await this.productsService.getProductToOrder(productId);
-
-    //     return {
-    //       id: productId,
-    //       name: product.name,
-    //       price: product.price,
-    //       quantity,
-    //     };
-    //   }),
-    // );
-
-    cart.products = addedProducts2;
-    const totalPrice = addedProducts2.reduce(
+    cart.products = addedProducts;
+    const totalPrice = addedProducts.reduce(
       (acc, curr) => acc + curr.price * curr.quantity,
       0,
     );
@@ -139,41 +102,6 @@ export class ShoppingCartService {
       (product) => product.id.toString() !== productId,
     );
     cart.products = updatedProducts;
-
-    const totalPrice = cart.products.reduce(
-      (acc, curr) => acc + curr.price * curr.quantity,
-      0,
-    );
-
-    cart.subtotal = totalPrice;
-    cart.total = cart.subtotal + cart.shipping;
-
-    cart.save();
-
-    return cart;
-  }
-
-  async updateProductQuantity(
-    cartId: string,
-    productId: string,
-    productDto: UpdateShoppingCartDto,
-  ) {
-    const { quantity } = productDto;
-    const cart = await this.ShoppingCartModel.findById(cartId);
-
-    if (!cart) {
-      throw new NotFoundException('Shopping cart not found');
-    }
-    const updatedProduct = cart.products.find(
-      (product) => product.id.toString() === productId,
-    );
-    const productsInCart = cart.products.filter(
-      (product) => product.id.toString() !== productId,
-    );
-
-    updatedProduct.quantity = quantity;
-
-    cart.products = [updatedProduct, ...productsInCart];
 
     const totalPrice = cart.products.reduce(
       (acc, curr) => acc + curr.price * curr.quantity,
