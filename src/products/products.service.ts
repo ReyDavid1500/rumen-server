@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { FilterQuery, Model, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Product } from './schemas/product.schema';
 
 @Injectable()
@@ -37,7 +37,9 @@ export class ProductsService {
     return products;
   }
 
-  async getProductToOrder(id: Types.ObjectId): Promise<any> {
+  async getProductToOrder(
+    id: Types.ObjectId,
+  ): Promise<{ name: string; price: number }> {
     const selectedProduct = await this.productModel.findById(id, {
       name: 1,
       price: 1,

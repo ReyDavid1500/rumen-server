@@ -23,9 +23,13 @@ export class ShoppingCartController {
   constructor(private readonly shoppingCartService: ShoppingCartService) {}
 
   @Roles(Role.CUSTOMER)
-  @Post()
-  create(@Body() createShoppingCartDto: CreateShoppingCartDto[]) {
+  @Post(':userId')
+  create(
+    @Param('userId') userId: string,
+    @Body() createShoppingCartDto: CreateShoppingCartDto[],
+  ) {
     return this.shoppingCartService.createNewShoppingCart(
+      userId,
       createShoppingCartDto,
     );
   }
@@ -42,6 +46,12 @@ export class ShoppingCartController {
   @Get(':cartId')
   findShoppingCart(@Param('cartId', MongoIdPipe) cartId: string) {
     return this.shoppingCartService.getShoppingCart(cartId);
+  }
+
+  @Roles(Role.CUSTOMER)
+  @Get(':userId')
+  findShoppingCartByUserId(@Param('userId', MongoIdPipe) userId: string) {
+    return this.shoppingCartService.getShoppingCartByUserId(userId);
   }
 
   @Delete(':cartId/product/:productId')

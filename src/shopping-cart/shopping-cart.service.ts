@@ -16,13 +16,13 @@ export class ShoppingCartService {
   ) {}
 
   async createNewShoppingCart(
+    userId: string,
     products: CreateShoppingCartDto[],
   ): Promise<ShoppingCart> {
     const addedProducts: OrderProduct[] = await Promise.all(
       products.map(async (item) => {
         const { id, quantity } = item;
         const product = await this.productsService.getProductToOrder(id);
-
         return {
           id,
           name: product.name,
@@ -42,6 +42,7 @@ export class ShoppingCartService {
     const total = totalPrice + shipping;
 
     const cart = await this.ShoppingCartModel.create({
+      userId,
       products: addedProducts,
       subtotal: totalPrice,
       shipping: shipping,
@@ -89,6 +90,17 @@ export class ShoppingCartService {
   getShoppingCart(cartId: string) {
     const cart = this.ShoppingCartModel.findById(cartId);
 
+    return cart;
+  }
+
+  async getShoppingCartByUserId(userId: string) {
+    const cart = await this.ShoppingCartModel.find({
+      userId,
+      isActive: true,
+    }).exec();
+    if (!cart) {
+      throw new NotFoundException('Cart not found');
+    }
     return cart;
   }
 
