@@ -7,6 +7,7 @@ import {
   ShoppingCartSchema,
 } from './schemas/shopping-cart.schema';
 import { ProductsModule } from 'src/products/products.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ProductsModule } from 'src/products/products.module';
       { name: ShoppingCart.name, schema: ShoppingCartSchema },
     ]),
     ProductsModule,
+    UsersModule,
   ],
   controllers: [ShoppingCartController],
   providers: [ShoppingCartService],

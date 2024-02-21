@@ -26,7 +26,7 @@ export class UsersService {
   async getUser(id: string): Promise<User> {
     const user = await this.userModel.findById(id);
     if (!user) {
-      throw new NotFoundException(`Product #${id} does not exist!`);
+      throw new NotFoundException(`User #${id} does not exist!`);
     }
     return user;
   }

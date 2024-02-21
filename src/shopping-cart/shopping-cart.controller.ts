@@ -49,7 +49,7 @@ export class ShoppingCartController {
   }
 
   @Roles(Role.CUSTOMER)
-  @Get(':userId')
+  @Get('/user/:userId')
   findShoppingCartByUserId(@Param('userId', MongoIdPipe) userId: string) {
     return this.shoppingCartService.getShoppingCartByUserId(userId);
   }

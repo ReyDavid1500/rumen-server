@@ -20,6 +20,9 @@ export class CreateOrderDto {
   readonly phone: string;
 
   @IsString()
+  readonly address: string;
+
+  @IsString()
   readonly payment: string;
 
   @IsBoolean()
