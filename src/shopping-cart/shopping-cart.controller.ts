@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ShoppingCartService } from './shopping-cart.service';
 import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
@@ -50,7 +51,11 @@ export class ShoppingCartController {
 
   @Roles(Role.CUSTOMER)
   @Get('/user/:userId')
-  findShoppingCartByUserId(@Param('userId', MongoIdPipe) userId: string) {
+  findShoppingCartByUserId(
+    @Param('userId', MongoIdPipe) userId: string,
+    @Req() request: any,
+  ) {
+    console.log(request.user);
     return this.shoppingCartService.getShoppingCartByUserId(userId);
   }
 

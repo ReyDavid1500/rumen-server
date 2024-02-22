@@ -3,7 +3,7 @@ import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
 import { UpdateShoppingCartDto } from './dto/update-shopping-cart.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ShoppingCart } from './schemas/shopping-cart.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model, Mongoose, Types } from 'mongoose';
 import { ProductsService } from 'src/products/products.service';
 import { OrderProduct } from 'src/interfaces/order.interface';
 import { UsersService } from 'src/users/users.service';
@@ -98,12 +98,14 @@ export class ShoppingCartService {
   }
 
   async getShoppingCartByUserId(userId: string) {
+    console.log(userId);
     const cart = await this.shoppingCartModel
       .findOne({
-        userId,
+        userId: new Types.ObjectId(userId),
         isActive: true,
       })
       .exec();
+    console.log(cart);
     if (!cart) {
       throw new NotFoundException('Cart not found');
     }

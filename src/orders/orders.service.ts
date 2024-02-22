@@ -5,22 +5,23 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './schemas/order.schema';
 import { Model } from 'mongoose';
 import { ShoppingCartService } from 'src/shopping-cart/shopping-cart.service';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<Order>,
-    private userService: UsersService,
     private shoppingCartService: ShoppingCartService,
   ) {}
 
   async createOrder(order: CreateOrderDto): Promise<Order> {
     const { userId, shoppingCartId } = order;
-    // const user = await this.userService.getUser(userId);
 
     const shoppingCart =
       await this.shoppingCartService.getShoppingCart(shoppingCartId);
+
+    shoppingCart.isActive = false;
+
+    await shoppingCart.save();
 
     const newOrder = await this.orderModel.create({
       userId,
