@@ -13,8 +13,8 @@ export class OrdersService {
     private shoppingCartService: ShoppingCartService,
   ) {}
 
-  async createOrder(order: CreateOrderDto): Promise<Order> {
-    const { userId, shoppingCartId } = order;
+  async createOrder(order: CreateOrderDto, userId: string): Promise<Order> {
+    const { shoppingCartId } = order;
 
     const shoppingCart =
       await this.shoppingCartService.getShoppingCart(shoppingCartId);

@@ -8,6 +8,7 @@ import {
   Delete,
   Put,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -15,6 +16,8 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.models';
 
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Orders')
@@ -22,9 +25,10 @@ import { AuthGuard } from '@nestjs/passport';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @Roles(Role.CUSTOMER)
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.createOrder(createOrderDto);
+  create(@Body() createOrderDto: CreateOrderDto, @Req() request: any) {
+    return this.ordersService.createOrder(createOrderDto, request.user.sub);
   }
 
   @Get()

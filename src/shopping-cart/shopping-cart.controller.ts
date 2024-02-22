@@ -17,6 +17,8 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.models';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
+import { PayloadToken } from 'src/interfaces/payloadToken.interface';
+import { Types } from 'mongoose';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('shopping-cart')
@@ -24,13 +26,13 @@ export class ShoppingCartController {
   constructor(private readonly shoppingCartService: ShoppingCartService) {}
 
   @Roles(Role.CUSTOMER)
-  @Post(':userId')
+  @Post()
   create(
-    @Param('userId') userId: string,
+    @Req() request: any,
     @Body() createShoppingCartDto: CreateShoppingCartDto[],
   ) {
     return this.shoppingCartService.createNewShoppingCart(
-      userId,
+      request.user.sub,
       createShoppingCartDto,
     );
   }
@@ -50,12 +52,9 @@ export class ShoppingCartController {
   }
 
   @Roles(Role.CUSTOMER)
-  @Get('/user/:userId')
-  findShoppingCartByUserId(
-    @Param('userId', MongoIdPipe) userId: string,
-    @Req() request: any,
-  ) {
-    console.log(request.user);
+  @Get()
+  findShoppingCartByUserId(@Req() request: any) {
+    const userId = request.user.sub;
     return this.shoppingCartService.getShoppingCartByUserId(userId);
   }
 

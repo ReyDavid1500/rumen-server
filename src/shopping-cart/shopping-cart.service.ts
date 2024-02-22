@@ -98,14 +98,12 @@ export class ShoppingCartService {
   }
 
   async getShoppingCartByUserId(userId: string) {
-    console.log(userId);
     const cart = await this.shoppingCartModel
       .findOne({
         userId: new Types.ObjectId(userId),
         isActive: true,
       })
       .exec();
-    console.log(cart);
     if (!cart) {
       throw new NotFoundException('Cart not found');
     }

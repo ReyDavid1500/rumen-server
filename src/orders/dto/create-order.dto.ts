@@ -7,9 +7,9 @@ import {
 } from 'class-validator';
 
 export class CreateOrderDto {
-  @IsNotEmpty()
-  @IsMongoId()
-  readonly userId: string;
+  // @IsNotEmpty()
+  // @IsMongoId()
+  // readonly userId: string;
 
   @IsMongoId()
   @IsNotEmpty()
