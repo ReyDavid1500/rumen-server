@@ -6,17 +6,17 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const corsConfig = {
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    allowedHeaders:
-      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
-    credentials: true,
-  };
+  // const corsConfig = {
+  //   origin: '*',
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   preflightContinue: false,
+  //   optionsSuccessStatus: 204,
+  //   allowedHeaders:
+  //     'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+  //   credentials: true,
+  // };
 
-  app.enableCors(corsConfig);
+  app.enableCors();
 
   app.useGlobalPipes(
     new ValidationPipe({
