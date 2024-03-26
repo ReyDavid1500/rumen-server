@@ -26,7 +26,7 @@ export class CreateUserDto {
   readonly password: string;
 
   @IsBoolean()
-  isActive: boolean = true;
+  isActive: boolean = false;
 
   @IsString()
   @IsNotEmpty()

@@ -8,6 +8,7 @@ import { OrdersModule } from './orders/orders.module';
 import { AddressModule } from './address/address.module';
 import { AuthModule } from './auth/auth.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
+import { EmailsModule } from './emails/emails.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -28,6 +29,7 @@ import * as Joi from 'joi';
     AddressModule,
     AuthModule,
     ShoppingCartModule,
+    EmailsModule,
   ],
 })
 export class AppModule {}
