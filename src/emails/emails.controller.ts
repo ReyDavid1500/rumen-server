@@ -1,12 +1,12 @@
-import { Controller, Post } from '@nestjs/common';
-import { EmailsService } from './emails.service';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ConfirmationEmail, EmailsService } from './emails.service';
 
 @Controller('emails')
 export class EmailsControllers {
   constructor(private readonly emailsService: EmailsService) {}
 
   @Post()
-  sendEmail(): void {
-    return this.emailsService.sendEmail();
+  sendEmail(@Body() confirmationEmail: ConfirmationEmail): Promise<void> {
+    return this.emailsService.sendConfirmationEmail(confirmationEmail);
   }
 }

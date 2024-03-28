@@ -1,17 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 
+export interface ConfirmationEmail {
+  email: string;
+  name: string;
+}
+
 @Injectable()
 export class EmailsService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(private mailerService: MailerService) {}
 
-  sendEmail(): void {
-    this.mailerService.sendMail({
-      to: 'davidguzman1500@gmail.com',
+  async sendConfirmationEmail(
+    confirmationEmail: ConfirmationEmail,
+  ): Promise<void> {
+    const activationUrl = 'http://localhost:5173/shopping';
+    return await this.mailerService.sendMail({
+      to: confirmationEmail.email,
       from: 'davidguzman1500@gmail.com',
-      subject: 'Testing',
-      text: 'welcome',
-      html: '<p>Has click aquí para activar tu email</p>',
+      subject: 'Activa tu cuenta Rumen',
+      html: `<p>Hola ${confirmationEmail.name}, activa tu cuenta haciendo click en el siguiente link</p><br>${activationUrl}`,
     });
   }
 }

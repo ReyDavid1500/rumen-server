@@ -34,7 +34,7 @@ export class UsersService {
   async getUserEmail(email: string) {
     const userEmail = await this.userModel.findOne({ email }).exec();
     if (!userEmail) {
-      throw new NotFoundException(`User email: ${email} does not exist!`);
+      return null;
     }
     return userEmail;
   }

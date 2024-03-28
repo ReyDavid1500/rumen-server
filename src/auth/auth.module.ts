@@ -8,6 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import config from 'config';
+import { EmailsModule } from 'src/emails/emails.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import config from 'config';
     }),
     UsersModule,
     PassportModule,
+    EmailsModule,
     JwtModule.registerAsync({
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {

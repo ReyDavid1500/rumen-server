@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { EmailsModule } from './emails/emails.module';
 import * as Joi from 'joi';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -23,6 +25,17 @@ import * as Joi from 'joi';
       }),
     }),
     MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.MAIL_HOST,
+        secure: false,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      },
+      preview: true,
+    }),
     UsersModule,
     ProductsModule,
     OrdersModule,
