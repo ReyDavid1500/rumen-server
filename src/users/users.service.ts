@@ -6,6 +6,10 @@ import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
+export interface confirmEmailPayload {
+  email: string;
+}
+
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
@@ -52,5 +56,11 @@ export class UsersService {
       throw new NotFoundException(`User #${id} not found`);
     }
     return true;
+  }
+
+  async activateUser(payload: confirmEmailPayload) {
+    const user = await this.userModel.findOne({ email: payload.email }).exec();
+    user.isActive = true;
+    await user.save();
   }
 }

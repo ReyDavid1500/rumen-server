@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService, confirmEmailPayload } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
@@ -45,5 +45,10 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id', MongoIdPipe) id: string) {
     return this.usersService.removeUser(id);
+  }
+
+  @Post('activate-user')
+  confirmUser(@Body() payload: confirmEmailPayload) {
+    return this.usersService.activateUser({ email: payload.email });
   }
 }

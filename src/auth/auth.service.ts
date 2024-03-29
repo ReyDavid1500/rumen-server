@@ -28,7 +28,11 @@ export class AuthService {
 
   loginToken(user: User) {
     const payload: PayloadToken = { role: user.role, sub: user._id };
-    const { name, address, email } = user;
+    const { name, address, email, isActive } = user;
+
+    if (isActive === false) {
+      throw new BadRequestException('Tu cuenta no esta activada');
+    }
     return {
       access_token: this.jwtService.sign(payload),
       name,
