@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
-import { UsersService, confirmEmailPayload } from './users.service';
+import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-authGuard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -47,8 +50,13 @@ export class UsersController {
     return this.usersService.removeUser(id);
   }
 
-  @Post('activate-user')
-  confirmUser(@Body() payload: confirmEmailPayload) {
-    return this.usersService.activateUser({ email: payload.email });
+  @UseGuards(JwtAuthGuard)
+  @Get('activate/user')
+  async confirmUser(@Req() request: any) {
+    try {
+      return await this.usersService.activateUser(request.user.email);
+    } catch (error) {
+      return 'Invalid token or account activation failed.';
+    }
   }
 }

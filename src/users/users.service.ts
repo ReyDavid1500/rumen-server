@@ -35,7 +35,7 @@ export class UsersService {
     return user;
   }
 
-  async getUserEmail(email: string) {
+  async getUserByEmail(email: string) {
     const userEmail = await this.userModel.findOne({ email }).exec();
     if (!userEmail) {
       return null;
@@ -58,9 +58,13 @@ export class UsersService {
     return true;
   }
 
-  async activateUser(payload: confirmEmailPayload) {
-    const user = await this.userModel.findOne({ email: payload.email }).exec();
-    user.isActive = true;
-    await user.save();
+  async activateUser(email: string): Promise<void> {
+    const user = await this.userModel.findOne({ email }).exec();
+    if (!user) {
+      throw new Error('Usuaro no existe');
+    } else {
+      user.isActive = true;
+      await user.save();
+    }
   }
 }

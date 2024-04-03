@@ -6,7 +6,10 @@ export class EmailsControllers {
   constructor(private readonly emailsService: EmailsService) {}
 
   @Post()
-  sendEmail(@Body() confirmationEmail: ConfirmationEmail): Promise<void> {
-    return this.emailsService.sendConfirmationEmail(confirmationEmail);
+  sendEmail(
+    @Body() confirmationEmail: ConfirmationEmail,
+    token: string,
+  ): Promise<void> {
+    return this.emailsService.sendConfirmationEmail(confirmationEmail, token);
   }
 }

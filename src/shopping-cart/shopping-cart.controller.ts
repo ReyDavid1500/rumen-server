@@ -11,14 +11,11 @@ import {
 } from '@nestjs/common';
 import { ShoppingCartService } from './shopping-cart.service';
 import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
-import { UpdateShoppingCartDto } from './dto/update-shopping-cart.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-authGuard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.models';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
-import { PayloadToken } from 'src/interfaces/payloadToken.interface';
-import { Types } from 'mongoose';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('shopping-cart')

@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersService.getUserEmail(email);
+    const user = await this.usersService.getUserByEmail(email);
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
@@ -42,18 +42,23 @@ export class AuthService {
   }
 
   async signUp(user: CreateUserDto) {
-    const existingUser = await this.usersService.getUserEmail(user.email);
+    const existingUser = await this.usersService.getUserByEmail(user.email);
 
     if (existingUser) {
       throw new BadRequestException('El correo ya existe');
     }
 
-    const newUser = await this.usersService.createUser(user);
-    console.log(newUser);
+    const { email, name } = await this.usersService.createUser(user);
 
-    await this.emailsService.sendConfirmationEmail({
-      email: newUser.email,
-      name: newUser.name,
-    });
+    const payload = { email, name };
+    const token = this.jwtService.sign(payload);
+
+    await this.emailsService.sendConfirmationEmail(
+      {
+        email,
+        name,
+      },
+      token,
+    );
   }
 }

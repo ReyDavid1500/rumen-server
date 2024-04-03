@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
-import { UpdateShoppingCartDto } from './dto/update-shopping-cart.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ShoppingCart } from './schemas/shopping-cart.schema';
-import mongoose, { Model, Mongoose, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { ProductsService } from 'src/products/products.service';
 import { OrderProduct } from 'src/interfaces/order.interface';
 import { UsersService } from 'src/users/users.service';
