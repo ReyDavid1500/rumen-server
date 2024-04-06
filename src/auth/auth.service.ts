@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -26,7 +30,7 @@ export class AuthService {
     return null;
   }
 
-  loginToken(user: User) {
+  async loginToken(user: User) {
     const payload: PayloadToken = { role: user.role, sub: user._id };
     const { name, address, email, isActive } = user;
 
