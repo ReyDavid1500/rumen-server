@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,6 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-authGuard';
+import { AddUserInfo } from './dto/addUserInfo.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,6 +28,13 @@ export class UsersController {
     return this.usersService.createUser(user);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Put('user-info')
+  addOrderInfo(@Req() request: any, @Body() userInfo: AddUserInfo) {
+    const userId = request.user.sub;
+    return this.usersService.addUserInfoToOrder(userId, userInfo);
+  }
+
   @Get()
   @ApiOperation({ summary: 'List of Users' })
   findAll() {
@@ -35,6 +44,12 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.usersService.getUser(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('token')
+  findByToken(@Req() request: any) {
+    return this.usersService.getUser(request.user.sub);
   }
 
   @Patch(':id')

@@ -16,13 +16,6 @@ export class CreateOrderDto {
   readonly shoppingCartId: string;
 
   @IsString()
-  @MaxLength(13)
-  readonly phone: string;
-
-  @IsString()
-  readonly address: string;
-
-  @IsString()
   readonly payment: string;
 
   @IsBoolean()

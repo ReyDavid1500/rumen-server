@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -32,7 +28,7 @@ export class AuthService {
 
   async loginToken(user: User) {
     const payload: PayloadToken = { role: user.role, sub: user._id };
-    const { name, address, email, isActive } = user;
+    const { name, address, email, isActive, phone } = user;
 
     if (isActive === false) {
       throw new BadRequestException('Tu cuenta no esta activada');
@@ -42,6 +38,7 @@ export class AuthService {
       name,
       address,
       email,
+      phone,
     };
   }
 

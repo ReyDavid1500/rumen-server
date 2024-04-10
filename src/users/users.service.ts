@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { AddUserInfo } from './dto/addUserInfo.dto';
 
 export interface confirmEmailPayload {
   email: string;
@@ -20,6 +21,14 @@ export class UsersService {
     newUser.password = hashPassword;
     await newUser.save();
     return newUser;
+  }
+
+  async addUserInfoToOrder(id: string, userInfo: AddUserInfo) {
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, {
+      phone: userInfo.phone,
+      address: userInfo.address,
+    });
+    return updatedUser.save();
   }
 
   async getUsers(): Promise<User[]> {

@@ -15,12 +15,6 @@ export class Order extends Document {
   shoppingCart: CartProduct;
 
   @Prop()
-  address: string;
-
-  @Prop()
-  phone: string;
-
-  @Prop()
   payment: string;
 
   @Prop()
