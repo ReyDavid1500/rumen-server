@@ -18,7 +18,8 @@ export class EmailsService {
     const devUrl = process.env.DEV_URL;
     const productionUrl = process.env.PRODUCTION_URL;
 
-    const baseUrl = process.env.MODE === 'production' ? productionUrl : devUrl;
+    const baseUrl =
+      process.env.NODE_ENV === 'production' ? productionUrl : devUrl;
 
     const activationUrl = `${baseUrl}/confirm-email-button?token=${token}`;
     return await this.mailerService.sendMail({
