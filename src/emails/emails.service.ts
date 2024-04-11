@@ -17,9 +17,10 @@ export class EmailsService {
   ): Promise<void> {
     const devUrl = process.env.DEV_URL;
     const productionUrl = process.env.PRODUCTION_URL;
-    const activationUrl = `${
-      devUrl || productionUrl
-    }/confirm-email-button?token=${token}`;
+
+    const baseUrl = process.env.MODE === 'production' ? productionUrl : devUrl;
+
+    const activationUrl = `${baseUrl}/confirm-email-button?token=${token}`;
     return await this.mailerService.sendMail({
       to: confirmationEmail.email,
       from: 'davidguzman1500@gmail.com',
