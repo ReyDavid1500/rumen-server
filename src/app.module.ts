@@ -15,7 +15,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
