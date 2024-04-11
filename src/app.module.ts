@@ -11,7 +11,6 @@ import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { EmailsModule } from './emails/emails.module';
 import * as Joi from 'joi';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
