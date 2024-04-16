@@ -12,6 +12,12 @@ export class CreateOrderDto {
   @IsString()
   readonly payment: string;
 
+  @IsString()
+  readonly address: string;
+
+  @IsString()
+  readonly phone: string;
+
   @IsBoolean()
   isCompleted: boolean = false;
 }

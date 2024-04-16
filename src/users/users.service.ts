@@ -24,10 +24,19 @@ export class UsersService {
   }
 
   async addUserInfoToOrder(id: string, userInfo: AddUserInfo) {
-    const updatedUser = await this.userModel.findByIdAndUpdate(id, {
-      phone: userInfo.phone,
-      address: userInfo.address,
-    });
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(
+        id,
+        {
+          phone: userInfo.phone,
+          address: userInfo.address,
+        },
+        {
+          new: true,
+          projection: { phone: 1, address: 1 },
+        },
+      )
+      .exec();
     return updatedUser.save();
   }
 
@@ -38,6 +47,14 @@ export class UsersService {
 
   async getUser(id: string): Promise<User> {
     const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User #${id} does not exist!`);
+    }
+    return user;
+  }
+
+  async getUserShippingInfo(id: string): Promise<User> {
+    const user = await this.userModel.findById(id, { phone: 1, address: 1 });
     if (!user) {
       throw new NotFoundException(`User #${id} does not exist!`);
     }

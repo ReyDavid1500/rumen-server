@@ -18,6 +18,12 @@ export class Order extends Document {
   payment: string;
 
   @Prop()
+  address: string;
+
+  @Prop()
+  phone: string;
+
+  @Prop()
   isCompleted: boolean = false;
 }
 

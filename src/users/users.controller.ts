@@ -35,7 +35,7 @@ export class UsersController {
     return this.usersService.addUserInfoToOrder(userId, userInfo);
   }
 
-  @Get()
+  @Get('/all')
   @ApiOperation({ summary: 'List of Users' })
   findAll() {
     return this.usersService.getUsers();
@@ -44,6 +44,12 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.usersService.getUser(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  findOneByToken(@Req() request: any) {
+    return this.usersService.getUserShippingInfo(request.user.sub);
   }
 
   @UseGuards(JwtAuthGuard)

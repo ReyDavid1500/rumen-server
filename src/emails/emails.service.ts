@@ -15,13 +15,10 @@ export class EmailsService {
     confirmationEmail: ConfirmationEmail,
     token: string,
   ): Promise<void> {
-    const devUrl = process.env.DEV_URL;
+    // const devUrl = process.env.DEV_URL;
     const productionUrl = process.env.PRODUCTION_URL;
 
-    const baseUrl =
-      process.env.NODE_ENV === 'development' ? devUrl : productionUrl;
-
-    const activationUrl = `${baseUrl}/confirm-email-button?token=${token}`;
+    const activationUrl = `${productionUrl}/confirm-email-button?token=${token}`;
     return await this.mailerService.sendMail({
       to: confirmationEmail.email,
       from: 'davidguzman1500@gmail.com',
