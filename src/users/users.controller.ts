@@ -47,11 +47,6 @@ export class UsersController {
     return this.usersService.getUser(id);
   }
 
-  @Get()
-  findOneByEmail(@Query('email') email: string) {
-    return this.usersService.getUserByEmail(email);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get()
   findOneByToken(@Req() request: any) {
