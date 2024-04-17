@@ -55,7 +55,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get()
   findOneByToken(@Req() request: any) {
-    console.log(request);
     return this.usersService.getUserShippingInfo(request.user.sub);
   }
 

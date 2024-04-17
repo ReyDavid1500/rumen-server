@@ -19,9 +19,8 @@ export class EmailsService {
     confirmationEmail: ConfirmationEmail,
     token: string,
   ): Promise<void> {
-    // const devUrl = process.env.DEV_URL;
-    const productionUrl = process.env.PRODUCTION_URL;
-    const activationUrl = `${productionUrl}/confirm-email-button?token=${token}`;
+    const baseUrl = process.env.BASE_URL;
+    const activationUrl = `${baseUrl}/confirm-email-button?token=${token}`;
     return await this.mailerService.sendMail({
       to: confirmationEmail.email,
       from: 'davidguzman1500@gmail.com',
@@ -43,14 +42,13 @@ export class EmailsService {
     email: string,
     resetToken: string,
   ): Promise<void> {
-    // const devUrl = process.env.DEV_URL;
-    const productionUrl = process.env.PRODUCTION_URL;
+    const baseUrl = process.env.BASE_URL;
     const user = await this.usersService.getUserByEmail(email);
-    console.log(user);
+
     if (!user) {
       throw new NotFoundException('El correo no esta registrado!');
     }
-    const resetUrl = `${productionUrl}/password-reset?resetToken=${resetToken}`;
+    const resetUrl = `${baseUrl}/password-reset?resetToken=${resetToken}`;
     return this.mailerService.sendMail({
       to: email,
       from: 'davidguzman1500@gmail.com',

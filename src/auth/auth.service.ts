@@ -72,21 +72,6 @@ export class AuthService {
     return resetToken;
   }
 
-  // async verifyResetToken(resetToken: string): Promise<string | null> {
-  //   try {
-  //     const decodedToken = await this.jwtService.verifyAsync(resetToken);
-  //     return decodedToken.email;
-  //   } catch (err) {
-  //     console.log(err);
-  //     return null;
-  //   }
-  // }
-
-  // async encryptPassword(password: string): Promise<string> {
-  //   const hashPassword = await bcrypt.hash(password, 10);
-  //   return hashPassword;
-  // }
-
   async resetPassword(password: string, resetToken: string) {
     const { email } = await this.jwtService.verifyAsync(resetToken);
 
