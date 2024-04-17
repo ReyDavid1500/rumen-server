@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,6 +11,7 @@ import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { AddUserInfo } from './dto/addUserInfo.dto';
+import { AuthService } from 'src/auth/auth.service';
 
 export interface confirmEmailPayload {
   email: string;
@@ -54,7 +60,9 @@ export class UsersService {
   }
 
   async getUserShippingInfo(id: string): Promise<User> {
-    const user = await this.userModel.findById(id, { phone: 1, address: 1 });
+    const user = await this.userModel
+      .findById(id, { phone: 1, address: 1 })
+      .exec();
     if (!user) {
       throw new NotFoundException(`User #${id} does not exist!`);
     }

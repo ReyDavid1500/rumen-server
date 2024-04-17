@@ -1,4 +1,13 @@
-import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  Post,
+  UseGuards,
+  Body,
+  Get,
+  Query,
+  Put,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -9,7 +18,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
+  async login(@Request() req: any) {
+    console.log(req.user);
     return this.authService.loginToken(req.user);
   }
 
@@ -21,5 +31,18 @@ export class AuthController {
   @Post('confirm-account')
   async confirmAccount(@Body() user: CreateUserDto) {
     return this.authService.signUp(user);
+  }
+
+  @Post('reset')
+  async resetToken(@Body('email') email: string) {
+    return this.authService.resetTokenAndEmail(email);
+  }
+
+  @Put('new-password')
+  async createNewPassword(
+    @Body('password') password: string,
+    @Query('resetToken') resetToken: string,
+  ) {
+    return await this.authService.resetPassword(password, resetToken);
   }
 }

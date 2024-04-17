@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ContactDataDto } from './dto/contactData.dto';
+import { UsersService } from 'src/users/users.service';
 
 export interface ConfirmationEmail {
   email: string;
@@ -9,7 +10,10 @@ export interface ConfirmationEmail {
 
 @Injectable()
 export class EmailsService {
-  constructor(private mailerService: MailerService) {}
+  constructor(
+    private mailerService: MailerService,
+    private usersService: UsersService,
+  ) {}
 
   async sendConfirmationEmail(
     confirmationEmail: ConfirmationEmail,
@@ -17,7 +21,6 @@ export class EmailsService {
   ): Promise<void> {
     // const devUrl = process.env.DEV_URL;
     const productionUrl = process.env.PRODUCTION_URL;
-
     const activationUrl = `${productionUrl}/confirm-email-button?token=${token}`;
     return await this.mailerService.sendMail({
       to: confirmationEmail.email,
@@ -33,6 +36,26 @@ export class EmailsService {
       from: 'davidguzman1500@gmail.com',
       subject: `Rumen Contacto: Mensaje de ${contactData.name}`,
       html: `<p>Hola mi nombre es ${contactData.name} y mi mensaje es el siguiente: <br> ${contactData.message}. <Br> Este es mi correo de contacto: ${contactData.email}</p>`,
+    });
+  }
+
+  async sendRestorePasswordEmail(
+    email: string,
+    resetToken: string,
+  ): Promise<void> {
+    // const devUrl = process.env.DEV_URL;
+    const productionUrl = process.env.PRODUCTION_URL;
+    const user = await this.usersService.getUserByEmail(email);
+    console.log(user);
+    if (!user) {
+      throw new NotFoundException('El correo no esta registrado!');
+    }
+    const resetUrl = `${productionUrl}/password-reset?resetToken=${resetToken}`;
+    return this.mailerService.sendMail({
+      to: email,
+      from: 'davidguzman1500@gmail.com',
+      subject: 'Restablece tu contraseña',
+      html: `<p>Hola ${user.name}, cambia tu contraseña haciendo click en el siguiente link<p><br><a href="${resetUrl}">Haz click Aquí!!</a>`,
     });
   }
 }

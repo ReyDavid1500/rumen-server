@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ConfirmationEmail, EmailsService } from './emails.service';
 import { ContactDataDto } from './dto/contactData.dto';
 
@@ -12,6 +12,11 @@ export class EmailsControllers {
     token: string,
   ): Promise<void> {
     return this.emailsService.sendConfirmationEmail(confirmationEmail, token);
+  }
+
+  @Post('reset-email')
+  sendResetEmail(@Body() email: string, resetToken: string): Promise<void> {
+    return this.emailsService.sendRestorePasswordEmail(email, resetToken);
   }
 
   @Post('contact')

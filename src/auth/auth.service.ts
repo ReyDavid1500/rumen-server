@@ -62,4 +62,40 @@ export class AuthService {
       token,
     );
   }
+
+  async resetTokenAndEmail(email: string): Promise<string> {
+    const payload = { email };
+    const resetToken = this.jwtService.sign(payload);
+
+    await this.emailsService.sendRestorePasswordEmail(email, resetToken);
+
+    return resetToken;
+  }
+
+  // async verifyResetToken(resetToken: string): Promise<string | null> {
+  //   try {
+  //     const decodedToken = await this.jwtService.verifyAsync(resetToken);
+  //     return decodedToken.email;
+  //   } catch (err) {
+  //     console.log(err);
+  //     return null;
+  //   }
+  // }
+
+  // async encryptPassword(password: string): Promise<string> {
+  //   const hashPassword = await bcrypt.hash(password, 10);
+  //   return hashPassword;
+  // }
+
+  async resetPassword(password: string, resetToken: string) {
+    const { email } = await this.jwtService.verifyAsync(resetToken);
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const user = await this.usersService.getUserByEmail(email);
+
+    user.password = hashPassword;
+
+    return user.save();
+  }
 }

@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -46,9 +47,15 @@ export class UsersController {
     return this.usersService.getUser(id);
   }
 
+  @Get()
+  findOneByEmail(@Query('email') email: string) {
+    return this.usersService.getUserByEmail(email);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   findOneByToken(@Req() request: any) {
+    console.log(request);
     return this.usersService.getUserShippingInfo(request.user.sub);
   }
 
