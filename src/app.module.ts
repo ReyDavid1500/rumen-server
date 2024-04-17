@@ -19,8 +19,13 @@ import { MailerModule } from '@nestjs-modules/mailer';
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string().required(),
         DATABASE_CONNECTION: Joi.string().required(),
         SECRET_VALUE: Joi.string().required(),
+        SMTP_PASSWORD: Joi.string().required(),
+        SMTP_USERNAME: Joi.string().required(),
+        MAIL_HOST: Joi.string().required(),
+        BASE_URL: Joi.string().required(),
       }),
     }),
     MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
