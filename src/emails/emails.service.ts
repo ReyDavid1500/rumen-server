@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ContactDataDto } from './dto/contactData.dto';
 import { UsersService } from 'src/users/users.service';
+import config from 'config';
+import { ConfigType } from '@nestjs/config';
 
 export interface ConfirmationEmail {
   email: string;
@@ -13,13 +15,14 @@ export class EmailsService {
   constructor(
     private mailerService: MailerService,
     private usersService: UsersService,
+    @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
   async sendConfirmationEmail(
     confirmationEmail: ConfirmationEmail,
     token: string,
   ): Promise<void> {
-    const baseUrl = process.env.BASE_URL;
+    const baseUrl = this.configService.baseUrl;
     const activationUrl = `${baseUrl}/confirm-email-button?token=${token}`;
     return await this.mailerService.sendMail({
       to: confirmationEmail.email,
@@ -42,7 +45,7 @@ export class EmailsService {
     email: string,
     resetToken: string,
   ): Promise<void> {
-    const baseUrl = process.env.BASE_URL;
+    const baseUrl = this.configService.baseUrl;
     const user = await this.usersService.getUserByEmail(email);
 
     if (!user) {

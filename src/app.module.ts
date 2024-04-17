@@ -12,10 +12,12 @@ import { EmailsModule } from './emails/emails.module';
 import * as Joi from 'joi';
 import { MailerModule } from '@nestjs-modules/mailer';
 
+console.log(typeof process.env.NODE_ENV, process.env.NODE_ENV);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.development', '.env.production'],
+      envFilePath: `.env.${process.env.NODE_ENV}`,
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
