@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ShoppingCart } from './schemas/shopping-cart.schema';
-import { Model, Types } from 'mongoose';
+import { Model, Types, isValidObjectId } from 'mongoose';
 import { ProductsService } from 'src/products/products.service';
 import { OrderProduct } from 'src/interfaces/order.interface';
 import { UsersService } from 'src/users/users.service';
@@ -70,7 +70,7 @@ export class ShoppingCartService {
         (item) => item.id === product._id,
       ).quantity;
       return {
-        id: product._id,
+        id: new Types.ObjectId(product._id),
         name: product.name,
         price: product.price,
         quantity,
