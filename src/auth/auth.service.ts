@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   async loginToken(user: User) {
-    const payload: PayloadToken = { role: user.role, sub: user._id };
+    const payload: PayloadToken = { role: user.role, sub: user.id };
     const { name, address, email, isActive, phone } = user;
 
     if (isActive === false) {
