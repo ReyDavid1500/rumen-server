@@ -48,7 +48,7 @@ export class ProductsController {
   }
 
   @Public()
-  @Get(':id')
+  @Get('/id/:id')
   @HttpCode(HttpStatus.ACCEPTED)
   getProduct(@Param('id', MongoIdPipe) id: string) {
     return this.productsService.getProduct(id);
