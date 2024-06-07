@@ -70,7 +70,7 @@ export class ShoppingCartService {
         (item) => item.id === product._id,
       ).quantity;
       return {
-        id: new Types.ObjectId(product._id),
+        id: new Types.ObjectId(product._id as string),
         name: product.name,
         price: product.price,
         quantity,
