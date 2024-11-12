@@ -67,7 +67,7 @@ export class ShoppingCartService {
     const products = await this.productsService.getProductsToOrder(productsIds);
     const addedProducts = products.map((product) => {
       const quantity = productsDto.find(
-        (item) => item.id === product._id.toString(),
+        (item) => item.id == product._id,
       ).quantity;
       return {
         id: new Types.ObjectId(product._id as string),
